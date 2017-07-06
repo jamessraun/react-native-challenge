@@ -13,15 +13,13 @@ export default class ListArticle extends Component {
   }
 
   renderList(article,i){
-    const getDetail = this.props.getDetail
-    console.log(getDetail);
-    return( <TouchableOpacity key={i} onPress={() => getDetail()}>
+    const { navigate } = this.props.navigator;
+    return( <TouchableOpacity key={i} onPress={() => navigate('Detail')}>
               <Text>{article.title}</Text>
             </TouchableOpacity>)
   }
 
   render() {
-    console.log(this.props);
     return (
         <View>{this.props.articles.map((article,index) => this.renderList(article,index))}</View>
     );

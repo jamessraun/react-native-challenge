@@ -12,6 +12,12 @@ export const App = StackNavigator({
       title:'Find News',
     }
   },
+  Detail: {
+    screen:DetailScreen,
+    navigationOptions: {
+      title:'Detail News',
+    }
+  },
 })
 
 export const TabBar = TabNavigator({

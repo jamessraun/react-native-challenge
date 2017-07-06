@@ -5,7 +5,7 @@ import {
   Button,
 } from 'react-native';
 
-export default class DetailScreen {
+export default class DetailScreen extends Component{
 
   render(){
     return (<View><Text>Detail</Text></View>)

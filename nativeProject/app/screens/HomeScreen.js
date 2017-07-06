@@ -45,11 +45,15 @@ export default class HomeArticle extends Component {
     })
   }
 
+
   getDetail(){
+    console.log('masuk sini');
+    console.log(this.props.navigation);
     this.props.navigation.navigate('Detail')
   }
 
   render() {
+
     if(this.state.is_loading)
 
     return(<View />)
@@ -68,7 +72,7 @@ export default class HomeArticle extends Component {
           accessibilityLabel="Search News"
         />
         <View>
-          <ListArticle articles={this.state.articles} getDetail={this.getDetail}/>
+          <ListArticle articles={this.state.articles} navigator={this.props.navigation}/>
         </View>
       </View>
     );
