@@ -19,12 +19,3 @@ export const App = StackNavigator({
     }
   },
 })
-
-export const TabBar = TabNavigator({
-  Home: {
-    screen:HomeScreen,
-    navigationOptions: {
-      tabBarLabel:'News',
-    },
-  },
-})

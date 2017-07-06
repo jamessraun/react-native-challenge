@@ -18,6 +18,8 @@ export default class HomeArticle extends Component {
   }
 
   chooseSource(data){
+    console.log('masuk sini');
+    console.log(this.source);
     this.setState({source: data})
   }
 
@@ -26,7 +28,7 @@ export default class HomeArticle extends Component {
     axios.get('https://newsapi.org/v1/sources')
     .then((response)=> {
       let data = response.data.sources.map(source => { return {id:source.id,name:source.name}})
-        this.setState({dataSource:data ,is_loading:false})
+        this.setState({dataSource:data ,is_loading:false,source:'abc-news-au'})
     })
     .catch(error => {
 
@@ -35,7 +37,7 @@ export default class HomeArticle extends Component {
 
   getArticles(source){
 
-    axios.get(`https://newsapi.org/v1/articles?source=${source}&sortBy=latest&apiKey=2b8dc8cd0b964e7d87e5e805a531bc27`)
+    axios.get(`https://newsapi.org/v1/articles?source=${source}&sortBy=top&apiKey=2b8dc8cd0b964e7d87e5e805a531bc27`)
     .then((response)=> {
       let data = response.data.articles
         this.setState({articles:data})

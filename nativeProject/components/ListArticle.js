@@ -14,7 +14,7 @@ export default class ListArticle extends Component {
 
   renderList(article,i){
     const { navigate } = this.props.navigator;
-    return( <TouchableOpacity key={i} onPress={() => navigate('Detail')}>
+    return( <TouchableOpacity key={i} onPress={() => navigate('Detail',{article})}>
               <Text>{article.title}</Text>
             </TouchableOpacity>)
   }

@@ -8,6 +8,14 @@ import {
 export default class DetailScreen extends Component{
 
   render(){
-    return (<View><Text>Detail</Text></View>)
+    console.log(this.props);
+    const { article } = this.props.navigation.state.params
+    return (
+      <View>
+        <View><Text>Title: {article.title}</Text></View>
+        <View><Text>Description: {article.description}</Text></View>
+        <View><Text>Author:{article.author}</Text></View>
+      </View>
+    )
   }
 }
