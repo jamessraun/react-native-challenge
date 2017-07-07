@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 import {
   AppRegistry,
   View,
@@ -12,10 +13,14 @@ import HomeScreen from './app/screens/HomeScreen';
 import DetailScreen from './app/screens/DetailScreen';
 import {App} from './app/config/router'
 
+import store from './app/store'
+
 class nativeProject extends Component {
   render() {
     return (
-      <App />
+      <Provider store={ store }>
+        <App />
+      </Provider>
     );
   }
 }

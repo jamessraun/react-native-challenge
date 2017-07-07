@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import {
   AppRegistry,
   Text,
@@ -9,30 +10,22 @@ import {
 import axios from 'axios';
 
 import ListArticle from '../.././components/ListArticle';
+import { loadAction } from '../actions/loadAction'
 
-export default class HomeArticle extends Component {
+class HomeArticle extends Component {
 
   constructor(props){
     super(props)
-    this.state={dataSource: [],articles:[],source:'',is_loading:true}
+    this.state = { articles:[],ource:'',is_loading:true}
   }
 
   chooseSource(data){
-    console.log('masuk sini');
-    console.log(this.source);
     this.setState({source: data})
   }
 
   componentDidMount(){
 
-    axios.get('https://newsapi.org/v1/sources')
-    .then((response)=> {
-      let data = response.data.sources.map(source => { return {id:source.id,name:source.name}})
-        this.setState({dataSource:data ,is_loading:false,source:'abc-news-au'})
-    })
-    .catch(error => {
-
-    })
+    this.props.loadAction()
   }
 
   getArticles(source){
@@ -49,23 +42,21 @@ export default class HomeArticle extends Component {
 
 
   getDetail(){
-    console.log('masuk sini');
-    console.log(this.props.navigation);
     this.props.navigation.navigate('Detail')
   }
 
   render() {
 
-    if(this.state.is_loading)
+    const { sources } = this.props
+    console.log('----',sources);
 
-    return(<View />)
-    else {
+    if(sources)
     return (
       <View>
         <Picker
           selectedValue={this.state.source}
           onValueChange={(itemValue, itemIndex) => this.chooseSource(itemValue)}>
-          {this.state.dataSource.map(source => (<Picker.Item key={source.id} label={source.name} value={source.id}/>))}
+          { sources.map(source => (<Picker.Item key={source.id} label={source.name} value={source.id}/>)) }
         </Picker>
         <Button
           onPress={() => this.getArticles(this.state.source)}
@@ -78,6 +69,23 @@ export default class HomeArticle extends Component {
         </View>
       </View>
     );
+
+    else {
+    return(<View />)
    }
   }
 }
+
+const mapStateToProps = ({sourcesReducer}) => {
+  return {
+    sources: sourcesReducer.sources
+  }
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    loadAction: () => dispatch(loadAction())
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(HomeArticle);
