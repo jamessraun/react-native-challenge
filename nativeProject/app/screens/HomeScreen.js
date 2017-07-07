@@ -16,7 +16,7 @@ class HomeArticle extends Component {
 
   constructor(props){
     super(props)
-    this.state = { articles:[],ource:'',is_loading:true}
+    this.state = { articles:[],source:'',is_loading:true}
   }
 
   chooseSource(data){
@@ -24,20 +24,21 @@ class HomeArticle extends Component {
   }
 
   componentDidMount(){
+    this.props.loadSource()
+  }
 
-    this.props.loadAction()
+  componentWillReceiveProps(nextProps){
+    const { sources } = nextProps
+    let data = sources.filter(source => (source.id==='initial'))
+    if(data.length===0){
+      this.setState({
+        sources:nextProps.sources.unshift({id:'initial',name:'Find news...'})
+      })
+    }
   }
 
   getArticles(source){
-
-    axios.get(`https://newsapi.org/v1/articles?source=${source}&sortBy=top&apiKey=2b8dc8cd0b964e7d87e5e805a531bc27`)
-    .then((response)=> {
-      let data = response.data.articles
-        this.setState({articles:data})
-    })
-    .catch(error => {
-
-    })
+    this.props.loadArticles(source)
   }
 
 
@@ -48,9 +49,8 @@ class HomeArticle extends Component {
   render() {
 
     const { sources } = this.props
-    console.log('----',sources);
 
-    if(sources)
+    if(sources){
     return (
       <View>
         <Picker
@@ -65,26 +65,28 @@ class HomeArticle extends Component {
           accessibilityLabel="Search News"
         />
         <View>
-          <ListArticle articles={this.state.articles} navigator={this.props.navigation}/>
+          <ListArticle articles={this.props.articles} navigator={this.props.navigation}/>
         </View>
       </View>
     );
-
-    else {
-    return(<View />)
+  } else {
+    return(<View><Text>test</Text></View>)
    }
   }
 }
 
-const mapStateToProps = ({sourcesReducer}) => {
+const mapStateToProps = ({sourcesReducer,articlesReducer}) => {
   return {
-    sources: sourcesReducer.sources
+    sources: sourcesReducer.sources,
+    articles: articlesReducer.articles,
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    loadAction: () => dispatch(loadAction())
+    loadSource: () => dispatch(loadAction()),
+    loadArticles: (source) => dispatch(loadAction(source)),
+
   }
 }
 
